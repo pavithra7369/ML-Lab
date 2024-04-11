@@ -1,0 +1,147 @@
+1a)     from sklearn import datasets
+import pandas as pd
+
+
+print('THIS IS  THE PROGRAM TO ACCESS  IRIS DATASET')
+iris=datasets.load_iris()
+print(" To print the description of Iris Dataset")
+print(iris.DESCR)
+
+print('\n\n\n\n')
+
+# df will fold dataset as a table
+df=pd.DataFrame(
+   iris.data,
+   columns=iris.feature_names
+   )
+
+#labels are assigned to df[target] table or array
+df['target']=pd.Series(
+    iris.target
+   )
+
+df['target_names']=df['target'].apply(lambda y:iris.target_names[y])
+
+print('To display First 5 samples')
+
+# df.head(5) will return the first five samples in the dataset
+print(df.head(5))
+
+print('To display randomply 5 samples')
+#df.sample(5) will return randomly five samples from the dataset
+print(df.sample(5))
+
+# Train Test Split Ratio
+from sklearn.model_selection import train_test_split
+
+df_train,df_test=train_test_split(df,test_size=0.3) # For 70: 30 Split
+
+print('The total number of samples in the dataset = ',df.shape[0])
+print('The number of samples  in training set = ',df_train.shape[0])
+print('The number of samples  in testing set = ',df_test.shape[0])
+
+print('The first five samples of training set')
+print(df_train.head(5))
+
+print('\n\nThe first five samples of testing set')
+print(df_test.head(5))
+
+
+
+
+1 b)   from sklearn import datasets
+import pandas as pd
+
+
+print('THIS IS  THE PROGRAM TO ACCESS  DIGITS DATASET')
+digit=datasets.load_digits()
+print(" To print the description of Digits Dataset")
+print(digit.DESCR)
+
+print('\n\n\n\n')
+
+# df will fold dataset as a table
+df=pd.DataFrame(
+   digit.data,
+   columns=digit.feature_names
+   )
+
+#labels are assigned to df[target] table or array
+df['target']=pd.Series(
+    digit.target
+   )
+
+df['target_names']=df['target'].apply(lambda y:digit.target_names[y])
+
+print('To display First 5 samples')
+
+# df.head(5) will return the first five samples in the dataset
+print(df.head(5))
+
+print('To display randomply 5 samples')
+#df.sample(5) will return randomly five samples from the dataset
+print(df.sample(5))
+
+# Train Test Split Ratio
+from sklearn.model_selection import train_test_split
+
+df_train,df_test=train_test_split(df,test_size=0.3) # For 70: 30 Split
+
+print('The total number of samples in the dataset = ',df.shape[0])
+print('The number of samples  in training set = ',df_train.shape[0])
+print('The number of samples  in testing set = ',df_test.shape[0])
+
+print('The first five samples of training set')
+print(df_train.head(5))
+
+print('\n\nThe first five samples of testing set')
+print(df_test.head(5))
+
+
+
+1c)    from sklearn import datasets
+import pandas as pd
+
+
+print('THIS IS  THE PROGRAM TO ACCESS  DIABETES DATASET')
+dbt=datasets.load_diabetes()
+print(" To print the description of Digits Dataset")
+print(dbt.DESCR)
+
+print('\n\n\n\n')
+
+# df will fold dataset as a table
+df=pd.DataFrame(
+   dbt.data,
+   columns=dbt.feature_names
+   )
+
+#labels are assigned to df[target] table or array
+df['target']=pd.Series(
+    dbt.target
+   )
+
+
+print('To display First 5 samples')
+
+# df.head(5) will return the first five samples in the dataset
+print(df.head(5))
+
+print('To display randomply 5 samples')
+#df.sample(5) will return randomly five samples from the dataset
+print(df.sample(5))
+
+# Train Test Split Ratio
+from sklearn.model_selection import train_test_split
+
+df_train,df_test=train_test_split(df,test_size=0.3) # For 70: 30 Split
+
+print('The total number of samples in the dataset = ',df.shape[0])
+print('The number of samples  in training set = ',df_train.shape[0])
+print('The number of samples  in testing set = ',df_test.shape[0])
+
+print('The first five samples of training set')
+print(df_train.head(5))
+
+print('\n\nThe first five samples of testing set')
+print(df_test.head(5))
