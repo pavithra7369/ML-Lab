@@ -1,0 +1,121 @@
+# a
+#PROGRAM To Implement a Decision TREE AND to DISPLAY IT 
+print('PROGRAM To Implement a Decision Tree AND to DISPLAY IT') 
+from sklearn import datasets 
+import pandas as pd 
+iris=datasets.load_iris() 
+# df will fold dataset as a table 
+df=pd.DataFrame( 
+iris.data, 
+columns=iris.feature_names 
+) 
+#labels are assigned to df[target] table or array 
+df['target']=pd.Series( 
+iris.target 
+) 
+from sklearn.model_selection import train_test_split 
+# Train Test Split Ratio 
+df_train,df_test=train_test_split(df,test_size=0.3) 
+df['target_names']=df['target'].apply(lambda y:iris.target_names[y]) 
+print('Number of Training samples') 
+print(df_train.shape[0]) 
+print('Number of Testing samples') 
+print(df_test.shape[0]) 
+#Importing Decision Tree Classifier 
+from sklearn.tree import DecisionTreeClassifier 
+clf=DecisionTreeClassifier()
+x_train=df_train[iris.feature_names] 
+x_test=df_test[iris.feature_names] 
+y_train=df_train['target'] 
+y_test=df_test['target'] 
+#Training Decision Tree Classifier 
+clf.fit(x_train,y_train) 
+#Testing the data 
+y_test_pred=clf.predict(x_test) 
+print('Class of Testing Samples') 
+print(y_test_pred) 
+#To display the decision tree in command shell 
+from sklearn.tree import export_text 
+from sklearn import tree 
+from matplotlib import pyplot as plt 
+text_representation = tree.export_text(clf) 
+print(text_representation) 
+with open("decistion_tree.log", "w") as fout: 
+  fout.write(text_representation) 
+fig = plt.figure(figsize=(25,20)) 
+_ = tree.plot_tree(clf, 
+feature_names=iris.feature_names, 
+class_names=iris.target_names, 
+filled=True) 
+fig.savefig("decistion_tree.png") 
+
+
+
+# b) Program to calculate accuracy of decision tree 
+#PROGRAM To Calculate Accuracy of Decision Tree 
+print('PROGRAM To Calculate Accuracy of Decision Tree') 
+from sklearn import datasets 
+import pandas as pd 
+iris=datasets.load_iris()
+# df will fold dataset as a table 
+df=pd.DataFrame( iris.data, columns=iris.feature_names ) 
+#labels are assigned to df[target] table or array 
+df['target']=pd.Series( iris.target ) 
+from sklearn.model_selection import train_test_split 
+# Train Test Split Ratio 
+df_train,df_test=train_test_split(df,test_size=0.3) 
+df['target_names']=df['target'].apply(lambda y:iris.target_names[y]) 
+print('Number of Training samples') 
+print(df_train.shape[0]) 
+print('Number of Testing samples') 
+print(df_test.shape[0]) 
+#Importing Decision Tree Classifier 
+from sklearn.tree import DecisionTreeClassifier 
+clf=DecisionTreeClassifier() 
+x_train=df_train[iris.feature_names] 
+x_test=df_test[iris.feature_names] 
+y_train=df_train['target'] 
+y_test=df_test['target'] 
+#Training Decision Tree Classifier 
+clf.fit(x_train,y_train) 
+#Testing the data 
+y_test_pred=clf.predict(x_test)
+print('Class of Testing Samples') 
+print(y_test_pred) 
+from sklearn.metrics import accuracy_score 
+x=accuracy_score(y_test,y_test_pred) 
+print('Accuracy') 
+print(x)
+
+
+# (c) Program to implement a Decision Tree Regression 
+#Program to implement Decision Tree Regression 
+import numpy as np 
+n=200 
+#200 samples 
+height_pop1_f=np.random.normal(loc=155,scale=10,size=n) 
+height_pop1_m=np.random.normal(loc=175,scale=5,size=n) 
+height_pop2_f=np.random.normal(loc=165,scale=10,size=n) 
+height_pop2_m=np.random.normal(loc=185,scale=5,size=n) 
+height_f=np.concatenate([height_pop1_f,height_pop2_f]) 
+height_m=np.concatenate([height_pop1_m,height_pop2_m]) 
+import pandas as pd 
+import matplotlib.pyplot as plt 
+from sklearn.tree import export_text 
+from sklearn.tree import DecisionTreeRegressor 
+from sklearn.model_selection import train_test_split 
+df_height=pd.DataFrame( { 'Gender':[1 for i in range(height_f.size)]+ [2 for i in range(height_m.size)], 'Height':np.concatenate((height_f,height_m))} )
+# to calculate mean and median of height 
+df_height.groupby('Gender')[['Height']].agg([np.mean,np.median]).round(1) 
+df_train,df_test=train_test_split(df_height,test_size=0.3) 
+x_train,x_test=df_train[['Gender']],df_test[['Gender']] 
+y_train,y_test=df_train['Height'],df_test['Height'] 
+print('Training Samples') 
+print(df_train) 
+print('Testing Samples') 
+print(df_test) 
+for criterion in['squared_error','absolute_error']: rgrsr=DecisionTreeRegressor(criterion=criterion) 
+rgrsr.fit(x_train,y_train) 
+print(f'criterion={criterion}:\n') 
+print(export_text(rgrsr,feature_names=['Gender'],spacing=3,decimals=1)) 
+print('Program Executed successfully')
