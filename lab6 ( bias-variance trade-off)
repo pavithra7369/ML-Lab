@@ -45,3 +45,32 @@ print(f"Linear Model Training MSE: {mean_squared_error(y_train, y_pred_train_lin
 print(f"Linear Model Testing MSE: {mean_squared_error(y_test, y_pred_test_linear)}")
 print(f"Polynomial Model Training MSE: {mean_squared_error(y_train, y_pred_train_poly)}")
 print(f"Polynomial Model Testing MSE: {mean_squared_error(y_test, y_pred_test_poly)}")
+
+# Calculate Mean Squared Error (MSE) for training and testing sets
+mse_train_linear = mean_squared_error(y_train, y_pred_train_linear)
+mse_test_linear = mean_squared_error(y_test, y_pred_test_linear)
+mse_train_poly = mean_squared_error(y_train, y_pred_train_poly)
+mse_test_poly = mean_squared_error(y_test, y_pred_test_poly)
+# Display MSE for both models
+print("Linear Regression Model (High Bias/Low Variance)")
+print(f"Training MSE: {mse_train_linear}")
+print(f"Testing MSE: {mse_test_linear}\n")
+print("Polynomial Regression Model (Low Bias/High Variance)")
+print(f"Training MSE: {mse_train_poly}")
+print(f"Testing MSE: {mse_test_poly}")
+
+from mlxtend.evaluate import bias_variance_decomp
+mse, bias, var = bias_variance_decomp(linear_model, X_train, y_train, X_test, y_test, 
+loss='mse', num_rounds=200, random_seed=1)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
+
+
+mse, bias, var = bias_variance_decomp(poly_model, X_train, y_train, X_test, y_test, 
+loss='mse', num_rounds=200, random_seed=1)
+# summarize results
+print('MSE: %.3f' % mse)
+print('Bias: %.3f' % bias)
+print('Variance: %.3f' % var)
