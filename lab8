@@ -1,0 +1,82 @@
+# a) Outlier detection with LOF
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import LocalOutlierFactor
+np.random.seed(42)
+#Generatetraindata
+X_inliers = 0.3 * np.random.randn(100, 2) 
+X_inliers=np.r_[X_inliers+2,X_inliers-2]
+#Generatesomeoutliers
+X_outliers=np.random.uniform(low=-4,high=4,size=(20,2)) 
+X = np.r_[X_inliers, X_outliers]
+n_outliers= len(X_outliers)
+ground_truth=np.ones(len(X),dtype=int)
+ground_truth[-n_outliers:] = -1
+#fitthemodelforoutlierdetection(default)
+clf=LocalOutlierFactor(n_neighbors=20, contamination=0.1)
+#usefit_predicttocomputethepredictedlabelsofthetrainingsamples # (when LOF isused for outlier detection, the estimator has no predict, # decision_function and score_samples methods).
+y_pred= clf.fit_predict(X)
+n_errors=(y_pred!=ground_truth).sum()
+X_scores = clf.negative_outlier_factor_
+plt.title("LocalOutlierFactor(LOF)")
+plt.scatter(X[:,0],X[:,1],color="k",s=3.0,label="Datapoints") # plot circles with radius proportional to the outlier scores
+radius=(X_scores.max()-X_scores)/(X_scores.max()-X_scores.min()) 
+plt.scatter(
+X[:,0],
+X[:,1],
+s=1000 * radius, edgecolors="r", 
+facecolors="none", label="Outlierscores",
+)
+plt.axis("tight")
+plt.xlim((-5,5))
+plt.ylim((-5,5))
+plt.xlabel("predictionerrors:%d"%(n_errors))
+legend = plt.legend(loc="upper left") 
+legend.legendHandles[0]._sizes = [10]
+legend.legendHandles[1]._sizes=[20] 
+plt.title("Local Outlier Factor")
+plt.show()
+
+
+# b) k nearest neighbour classifier
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import make_blobs
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+
+X, y = make_blobs(n_samples = 500, n_features = 2, centers = 4,cluster_std = 1.5, random_state = 4)
+
+plt.style.use('seaborn')
+plt.figure(figsize = (10,10))
+plt.scatter(X[:,0], X[:,1], c=y, marker= '*',s=100,edgecolors='black')
+plt.show()
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 0)
+
+knn5 = KNeighborsClassifier(n_neighbors = 5)
+knn1 = KNeighborsClassifier(n_neighbors=1)
+
+knn5.fit(X_train, y_train)
+knn1.fit(X_train, y_train)
+
+y_pred_5 = knn5.predict(X_test)
+y_pred_1 = knn1.predict(X_test)
+
+from sklearn.metrics import accuracy_score
+print("Accuracy with k=5", accuracy_score(y_test, y_pred_5)*100)
+print("Accuracy with k=1", accuracy_score(y_test, y_pred_1)*100)
+
+plt.figure(figsize = (15,5))
+plt.subplot(1,2,1)
+plt.scatter(X_test[:,0], X_test[:,1], c=y_pred_5, marker= '*', s=100,edgecolors='black')
+plt.title("Predicted values with k=5", fontsize=20)
+
+plt.subplot(1,2,2)
+plt.scatter(X_test[:,0], X_test[:,1], c=y_pred_1, marker= '*', s=100,edgecolors='black')
+plt.title("Predicted values with k=1", fontsize=20)
+plt.show()
+
